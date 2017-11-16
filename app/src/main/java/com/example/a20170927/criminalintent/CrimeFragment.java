@@ -15,6 +15,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.UUID;
+
+import static com.example.a20170927.criminalintent.CrimeActivity.EXTRA_CRIME_ID;
+
 /**
  * Created by 20170927 on 2017/10/25.
  */
@@ -29,6 +33,8 @@ public class CrimeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCrime=new Crime();
+        UUID crimeId=(UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        mCrime=CrimeLab.get(getActivity()).getCrime(crimeId);
 
     }
 
@@ -45,6 +51,8 @@ public class CrimeFragment extends Fragment {
                 mCrime.setSolved(isChecked);
             }
         });
+        mSolveCheckBox.setChecked(mCrime.isSolved());
+        mTitleFiled.setText(mCrime.getTitle());
         mDateButton.setText(mCrime.getDate().toString());
         mDateButton.setEnabled(false);
         mTitleFiled.addTextChangedListener(new TextWatcher() {
